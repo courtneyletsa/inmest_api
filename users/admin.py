@@ -11,10 +11,14 @@ class UserTypeAdmin(admin.ModelAdmin):
     
 class CohortAdmin(admin.ModelAdmin):
     list_display=("name", "description", "year", "start_date", "end_date", "is_active", "date_created", "date_modified", "author")
+    
+class CohorMemberAdmin(admin.ModelAdmin):
+    list_display=("cohort", "members", "is_active", "date_created", "date_modified")
 
 
 
 admin.site.register(UserType, UserTypeAdmin)
 admin.site.register(IMUser, UserAdmin)
 admin.site.register(Cohort, CohortAdmin)
+admin.site.register(CohorMember, CohorMemberAdmin)
 

@@ -29,5 +29,16 @@ class Cohort(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class CohorMember(models.Model):
+    cohort = models.ForeignKey(Cohort, on_delete = models.CASCADE)
+    members = models.ForeignKey(IMUser, on_delete = models.CASCADE, related_name='cohort_members') 
+    is_active = models.BooleanField(default = False)
+    date_created = models.DateTimeField(auto_now_add = True)
+    date_modified = models.DateTimeField(auto_now = True)  
+    author = models.ForeignKey(IMUser, on_delete = models.CASCADE, related_name='authored_members')
     
+    def __str__(self):
+        return f"(self.member.first_name) in (self.cohort.name)"
     
