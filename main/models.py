@@ -10,8 +10,9 @@ class Course(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, blank =True, null = True)
     date_modified = models.DateTimeField(auto_now=True, blank =True, null = True)
     
-    def _str_(self):
+    def __str__(self):
         return f"{self.name}"
+        
     
 class ClassSchedule(models.Model):
     title = models.CharField(max_length = 255)

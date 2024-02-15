@@ -1,20 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import *
 
 # Create your models here.
-class UserType(models.Model):
-    name = models.CharField(max_length = 225, unique = True)
-    
-    def __str__(self):
-        return self.name
+class IMUser(AbstractUser):
+    first_name = models.CharField(max_length=155, blank=True)
+    last_name = models.CharField(max_length=155, blank=True)
+    middle_name = models.CharField(max_length=155, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
 
-class IMUser(models.Model):
-    first_name = models.CharField(max_length = 500, null = False)
-    last_name = models.CharField(max_length = 500, null = False)
-    is_active = models.BooleanField(default=False)
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
+    USER_TYPES = [
+        ('EIT', 'EiT'),
+        ('TEACHING_FELLOW', 'Teaching Fellow'),
+        ('ADMIN_STAFF', 'Administrative Staff'),
+        ('ADMIN', 'Administrator'),
+    ]
+
+    user_type = models.CharField(max_length=20, choices=USER_TYPES, default='EIT')
+    date_created = models.DateTimeField(auto_now_add=True)
+    groups = models.ManyToManyField(Group, related_name='imuser_set')
+    user_permissions = models.ManyToManyField(Permission, related_name='imuser_set')
     
-    def __str__(self):
-        return self.first_name
+    def _str_(self):
+        return f"{self.first_name} {self.last_name}"
     
 class Cohort(models.Model):
     name = models.CharField(max_length = 500, null = False)
