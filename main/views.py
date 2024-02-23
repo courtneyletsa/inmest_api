@@ -2,6 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from main.models import *
+from main.serializers import *
+
 # Create your views here.
 
 
@@ -56,3 +62,17 @@ class QueryView(View):
     
     def post(self,req):
         return JsonResponse({"status": "ok"})
+    
+
+@api_view(['GET']) 
+def fetch_class_schedule(request):
+    # 1. Retrive from database all class schedule
+    queryset = ClassSchedule.objects.all()
+    
+    # 2. Return queryset results as response
+    # 2b. transform or serialize the queryset result to json and send as response
+    
+    serializer = ClassScheduleSerializer(queryset, many=True)
+    
+    #3. Respond to the request
+    return Response({"data": serializer.data}, status.HTTP_200_OK)
