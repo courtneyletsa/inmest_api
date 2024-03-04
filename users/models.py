@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import *
+from rest_framework.authtoken.models import Token
+from django.dispatch import receiver
+from django.db.models.signals import post_save, pre_save
 
 # Create your models here.
 class IMUser(AbstractUser):
@@ -19,9 +22,19 @@ class IMUser(AbstractUser):
     date_created = models.DateTimeField(auto_now_add=True)
     groups = models.ManyToManyField(Group, related_name='imuser_set')
     user_permissions = models.ManyToManyField(Permission, related_name='imuser_set')
+    is_blocked = models.BooleanField(default=False)
+    temporal_login_fail = models.IntegerField(default=0)
+    permanant_login_fail = models.IntegerField(default=0)
     
     def _str_(self):
         return f"{self.first_name} {self.last_name}"
+
+
+@receiver(post_save, sender=IMUser)    
+def generate_auth_token(sender, instance=None, created=False,**kwargs):
+    if created:
+        token = Token.objects.create(user=instance)
+        token.save()
     
 class Cohort(models.Model):
     name = models.CharField(max_length = 500, null = False)
@@ -48,4 +61,7 @@ class CohorMember(models.Model):
     
     def __str__(self):
         return f"(self.member.first_name) in (self.cohort.name)"
+    
+    
+    
     

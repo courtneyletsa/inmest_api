@@ -4,13 +4,13 @@ from .models import *
 # Register your models here.
 
 class UserAdmin(admin.ModelAdmin):
-    list_display=("first_name", "last_name", "is_active", "user_type", "date_created")
+    list_display=("id","first_name", "last_name", "is_active", "user_type", "date_created", "is_blocked", "temporal_login_fail", "permanant_login_fail")
     
 # class UserTypeAdmin(admin.ModelAdmin):
 #     list_display=("name",)
     
 class CohortAdmin(admin.ModelAdmin):
-    list_display=("name", "description", "year", "start_date", "end_date", "is_active", "date_created", "date_modified", "author")
+    list_display=("id","name", "description", "year", "start_date", "end_date", "is_active", "date_created", "date_modified", "author")
     
 class CohorMemberAdmin(admin.ModelAdmin):
     list_display=("cohort", "members", "is_active", "date_created", "date_modified")

@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 class CourseAdmin(admin.ModelAdmin):
-    list_display=("name", "date_created", "date_modified")
+    list_display=("id","name", "date_created", "date_modified")
     
 class ClassScheduleAdmin(admin.ModelAdmin):
     list_display = ("title", "description", "start_date_and_time", "end_date_and_time", "is_repeated", "repeat_frequency", "meeting_types","is_active", "organizer", "cohort", "course","facilitator","venue", "date_created", "date_modified")
