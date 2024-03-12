@@ -20,6 +20,7 @@ class IMUser(AbstractUser):
 
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='EIT')
     date_created = models.DateTimeField(auto_now_add=True)
+    unique_code=models.CharField(max_length=20, blank=True)
     groups = models.ManyToManyField(Group, related_name='imuser_set')
     user_permissions = models.ManyToManyField(Permission, related_name='imuser_set')
     is_blocked = models.BooleanField(default=False)

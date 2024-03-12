@@ -11,6 +11,7 @@ class AuthSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    username = serializers.CharField()
     # auth_token = serializers.CharField(read_only = True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
