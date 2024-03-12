@@ -74,6 +74,11 @@ class Query(models.Model):
         (DECLINED, 'Declined'),
         (RESOLVED, 'Resolved'),
     ]
+    QUERY_TYPE = (
+        ('FACILITY', 'Facility'),
+        ('LOGISTICS', 'Logistics'),
+        ('KITCHEN', 'Kitchen')
+    )
 
     title = models.CharField(max_length = 255)
     description = models.TextField(default ="N/A", blank=True, null=True)
@@ -81,6 +86,7 @@ class Query(models.Model):
     assigned_to = models.ForeignKey(IMUser, on_delete = models.CASCADE, related_name = 'assigned')
     # resolution_status = models.ForeignKey(ResolutionStatus, on_delete = models.CASCADE)
     resolution_status = models.CharField(max_length = 50, choices = RESOLUTION_STATUS_CHOICES, default=PENDING)
+    query_type = models.CharField(max_length = 50, choices = QUERY_TYPE, default='FACILITY', blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add = True)
     date_modified = models.DateTimeField(auto_now = True)
     author = models.ForeignKey(IMUser, on_delete = models.CASCADE, related_name = 'author')

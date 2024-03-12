@@ -116,8 +116,13 @@ class ResetPasswordAPIView(APIView):
             if not user.unique_code == unique_code:
                 return generate_400_response("try again")
             else:
-                user.set_password(password)
+
                 user.unique_code = ""
+                user.is_active = True
+                user.is_blocked = False
+                user.temporal_login_fail = 0
+                user.permanant_login_fail = 0
+                user.set_password(password)
                 user.save()
                 return Response({"message":"password reset successfully"}, status.HTTP_200_OK)
         except IMUser.DoesNotExist:
